@@ -1,4 +1,4 @@
-package sample;
+package pl.put.controller;
 
 public class Controller {
 }
