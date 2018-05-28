@@ -23,4 +23,10 @@ public class Main extends javafx.application.Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    public static int max(int a, int b) {
+        System.out.println(a);
+        System.out.println(b);
+        return a >= b ? a : b;
+    }
 }
