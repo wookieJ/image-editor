@@ -1,16 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.put.controller.MainPaneController">
+<BorderPane prefHeight="774.0" prefWidth="1200.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.put.controller.MainPaneController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+               <menus>
+                  <Menu id="fileMenu" fx:id="fileMenu" mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
+                        <MenuItem fx:id="loadImageMenuItem" mnemonicParsing="false" text="Load image" />
+                     </items>
+                  </Menu>
+                  <Menu id="editMenu" fx:id="editMenu" mnemonicParsing="false" text="Edit">
+                     <items>
+                        <Menu id="languageMenu" fx:id="languageMenu" mnemonicParsing="false" text="Language">
+                           <items>
+                              <MenuItem id="englishMenuItem" fx:id="englishMenuItem" mnemonicParsing="false" text="English" />
+                           </items>
+                        </Menu>
+                     </items>
+                  </Menu>
+                  <Menu id="helpMenu" fx:id="helpMenu" mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+            <ToolBar VBox.vgrow="NEVER">
+               <items>
+                  <HBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <HBox alignment="CENTER" spacing="8.0">
+                           <children>
+                              <Button id="open-button" fx:id="openButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <Button id="undo-button" fx:id="undoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <Button id="redo-button" fx:id="redoButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="8.0">
+                           <children>
+                              <Button id="line-button" fx:id="lineButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <Button id="rectangle-button" fx:id="rectangleButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </items>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </ToolBar>
+         </children>
+      </VBox>
+   </top>
    <bottom>
-      <Button fx:id="button" mnemonicParsing="false" text="Button" BorderPane.alignment="CENTER" />
+      <BorderPane BorderPane.alignment="CENTER">
+         <right>
+            <Label fx:id="rightLabel" BorderPane.alignment="CENTER" />
+         </right>
+         <left>
+            <Label fx:id="leftLabel" BorderPane.alignment="CENTER" />
+         </left>
+         <center>
+            <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <ProgressBar fx:id="bottomProgressBar" prefWidth="500.0" progress="0.0" />
+                  <Button id="bottom-cancel-button" fx:id="bottomCancelButton" mnemonicParsing="false" text="Cancel" />
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </HBox>
+         </center>
+      </BorderPane>
    </bottom>
    <center>
-      <Label fx:id="label" text="Label" BorderPane.alignment="CENTER" />
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <ImageView id="undo-button" fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
    </center>
 </BorderPane>

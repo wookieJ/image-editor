@@ -11,9 +11,18 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class PluginLoader {
-    public static Class<?> loadClass(File dir, String config) throws IOException, ClassNotFoundException {
-        final JarFile jarFile = new JarFile(dir);
-        final JarEntry jarEntry = jarFile.getJarEntry(config);
+    /**
+     * Loading plugin main class, by it's name typed in configuration file.
+     *
+     * @param pluginsDirectory Plugins root directory
+     * @param configFileName   Name of plugins configuration file
+     * @return Loaded class of plugin
+     * @throws IOException            Throwing while file loading process
+     * @throws ClassNotFoundException Throwing when there is no class
+     */
+    public static Class<?> loadClass(File pluginsDirectory, String configFileName) throws IOException, ClassNotFoundException {
+        final JarFile jarFile = new JarFile(pluginsDirectory);
+        final JarEntry jarEntry = jarFile.getJarEntry(configFileName);
         final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(jarFile.getInputStream(jarEntry)));
         final HashMap<String, String> data = new HashMap<>();
 
@@ -27,14 +36,23 @@ public class PluginLoader {
 
         jarFile.close();
 
-        return Class.forName(data.get("Main"), true, new URLClassLoader(new URL[]{dir.toURI().toURL()}));
+        return Class.forName(data.get("Main"), true, new URLClassLoader(new URL[]{pluginsDirectory.toURI().toURL()}));
     }
 
-    public static Class<?>[] loadPlugins(String dir, String config) throws IOException, ClassNotFoundException {
-        return loadPlugins(new File(dir), config);
+    /**
+     * Loading plugin available in directory
+     *
+     * @param pluginsDirectory plugins root directory
+     * @param configFileName   Name of plugins configuration file
+     * @return Array of classes in plugins root directory available
+     * @throws IOException            Throwing while file loading process
+     * @throws ClassNotFoundException Throwing when there is no class
+     */
+    public static Class<?>[] loadPlugins(String pluginsDirectory, String configFileName) throws IOException, ClassNotFoundException {
+        return loadPlugins(new File(pluginsDirectory), configFileName);
     }
 
-    public static Class<?>[] loadPlugins(File dir, String config) throws IOException, ClassNotFoundException {
+    private static Class<?>[] loadPlugins(File dir, String config) throws IOException, ClassNotFoundException {
         final File[] files = dir.listFiles();
         final Class<?>[] classes = new Class<?>[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -44,16 +62,24 @@ public class PluginLoader {
         return classes;
     }
 
-    public static Plugin initAsPlugin(Class<?> group) throws IllegalAccessException, InstantiationException {
-        return (Plugin) group.newInstance();
-    }
-
-    public static Plugin[] initAsPlugin(Class<?>[] group) throws InstantiationException, IllegalAccessException {
-        final Plugin[] plugins = new Plugin[group.length];
-        for (int i = 0; i < group.length; i++) {
-            plugins[i] = initAsPlugin(group[i]);
+    /**
+     * Getting an array of plugins in root directory file
+     *
+     * @param classes Plugins classes we want to convert into plugin objects
+     * @return array of plugins
+     * @throws InstantiationException throwing while creaating new instance of plugin based on class
+     * @throws IllegalAccessException throwing while creaating new instance of plugin based on class
+     */
+    public static Plugin[] initAsPlugin(Class<?>[] classes) throws InstantiationException, IllegalAccessException {
+        final Plugin[] plugins = new Plugin[classes.length];
+        for (int i = 0; i < classes.length; i++) {
+            plugins[i] = initAsPlugin(classes[i]);
         }
 
         return plugins;
+    }
+
+    private static Plugin initAsPlugin(Class<?> group) throws InstantiationException, IllegalAccessException {
+        return (Plugin) group.newInstance();
     }
 }
