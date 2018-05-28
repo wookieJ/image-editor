@@ -1,6 +1,6 @@
 package pl.put.plugin;
 
 public interface Plugin {
-    void run();
+    String run();
     void close();
 }

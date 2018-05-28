@@ -4,13 +4,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pl.put.plugin.Plugin;
-import pl.put.plugin.PluginLoader;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 
 public class Main extends javafx.application.Application {
     @Override
@@ -23,26 +19,27 @@ public class Main extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
+
+//        // loading plugins
+//        Plugin[] plugins = null;
+//        try {
+//            Class<?>[] classes = PluginLoader.loadPlugins("plugins", "config.cfg");
+//            plugins = PluginLoader.initAsPlugin(classes);
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Arrays.stream(plugins).forEach(plugin -> {
+//            System.out.println("Plugin running");
+//            plugin.run();
+//            plugin.close();
+//        });
         launch(args);
-
-        // loading plugins
-        Plugin[] plugins = null;
-        try {
-            plugins = PluginLoader.initAsPlugin(PluginLoader.loadPlugins("plugins", "config.cfg"));
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        Arrays.stream(plugins).forEach(plugin -> {
-            System.out.println("Plugin running");
-            plugin.run();
-            plugin.close();
-        });
     }
 }

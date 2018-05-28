@@ -4,15 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class PluginLoader {
-    public static Class<?> loadClass(String dir, String config) throws IOException, ClassNotFoundException {
-        return loadClass(new File(dir), config);
-    }
-
     public static Class<?> loadClass(File dir, String config) throws IOException, ClassNotFoundException {
         final JarFile jarFile = new JarFile(dir);
         final JarEntry jarEntry = jarFile.getJarEntry(config);
@@ -29,7 +27,7 @@ public class PluginLoader {
 
         jarFile.close();
 
-        return Class.forName(data.get("Main"));
+        return Class.forName(data.get("Main"), true, new URLClassLoader(new URL[]{dir.toURI().toURL()}));
     }
 
     public static Class<?>[] loadPlugins(String dir, String config) throws IOException, ClassNotFoundException {
