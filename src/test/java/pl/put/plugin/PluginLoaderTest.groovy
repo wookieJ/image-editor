@@ -1,18 +1,26 @@
 package pl.put.plugin
 
-import pl.put.Main
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class PluginLoaderTest extends Specification {
     @Unroll
-    def "max(#a,#b) == #c"() {
+    def "loadPlugins(#pluginsDirectory, #configFileName).length == #result"() {
         expect:
-        Main.max(a, b) == c
+        PluginLoader.loadPlugins(pluginsDirectory, configFileName).length == result
 
         where:
-        a  | b   | c
-        1  | 2   | 2
-        42 | -12 | 42
+        pluginsDirectory | configFileName | result
+        "plugins"        | "config.cfg"   | 1
+    }
+
+    @Unroll
+    def "initAsPlugin(loadPlugins(#pluginsDirectory, #configFileName)).length == #result"() {
+        expect:
+        PluginLoader.initAsPlugin(PluginLoader.loadPlugins(pluginsDirectory, configFileName)).length == result
+
+        where:
+        pluginsDirectory | configFileName | result
+        "plugins"        | "config.cfg"   | 1
     }
 }

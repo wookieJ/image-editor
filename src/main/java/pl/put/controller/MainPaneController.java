@@ -3,11 +3,13 @@ package pl.put.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import pl.put.plugin.Plugin;
 import pl.put.plugin.PluginLoader;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
 
 public class MainPaneController {
     @FXML
@@ -15,6 +17,9 @@ public class MainPaneController {
 
     @FXML
     private ImageView imageView;
+
+    @FXML
+    private HBox pluginsToolBox;
 
     @FXML
     private Menu helpMenu;
@@ -68,8 +73,6 @@ public class MainPaneController {
 
     @FXML
     public void initialize() {
-        System.out.println("Starting loading plugins...");
-
         // loading plugins
         plugins = null;
 
@@ -85,17 +88,14 @@ public class MainPaneController {
             e.printStackTrace();
         }
 
-        Arrays.stream(plugins).forEach(plugin -> {
-            System.out.println("Plugin running");
-            plugin.run();
-            
-//            Button button = new Button(plugin.run());
-//            gridPane.add (button, 1, i );
-//            button.setOnAction();
-
-            plugin.close();
+        // Adding plugins to toolbar
+        Arrays.stream(plugins).filter(plugin -> plugin.getType().toLowerCase().contains("image")).forEach(plugin -> {
+            Button pluginButton = new Button(plugin.getName());
+            pluginsToolBox.getChildren().add(pluginButton);
+//            pluginButton.setOnAction(event -> plugin.run());
         });
-
-        System.out.println("END");
+        Arrays.stream(plugins).filter(plugin -> plugin.getType().toLowerCase().contains("language")).forEach(plugin -> {
+            Properties properties = plugin.setLanguage();
+        });
     }
 }

@@ -54,8 +54,10 @@
                            <children>
                               <Button id="line-button" fx:id="lineButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
                               <Button id="rectangle-button" fx:id="rectangleButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" />
+                              <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
                            </children>
                         </HBox>
+                        <HBox fx:id="pluginsToolBox" alignment="CENTER" spacing="8.0" />
                      </children>
                   </HBox>
                </items>
