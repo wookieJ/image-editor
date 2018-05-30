@@ -39,3 +39,9 @@
 #rectangle-button:hover {
     -fx-opacity: 100.0%;
 }
+
+/* After selecting */
+#line-button:selected,
+#rectangle-button:selected {
+    -fx-background-color: grey;
+}

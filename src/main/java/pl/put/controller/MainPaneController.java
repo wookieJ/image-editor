@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -26,7 +27,7 @@ public class MainPaneController {
     private HBox pluginsToolBox;
 
     @FXML
-    private Button lineButton;
+    private ToggleButton lineButton;
 
     @FXML
     private MenuItem polishMenuItem;
@@ -62,7 +63,7 @@ public class MainPaneController {
     private ProgressBar bottomProgressBar;
 
     @FXML
-    private Button rectangleButton;
+    private ToggleButton rectangleButton;
 
     @FXML
     private MenuItem loadImageMenuItem;
@@ -82,7 +83,31 @@ public class MainPaneController {
         loadDefaultProperty();
 
         initMenu();
+        initToolbox();
+        initImageView();
         setImageView("sampleAssets\\empty.png");
+    }
+
+    private void initImageView() {
+        imageView.setOnMousePressed(e -> {
+            if (lineButton.isSelected())
+                writeCoordinates(e);
+//            if(rectangleButton.isSelected())
+//                drawRectangle(e);
+        });
+    }
+
+    private void writeCoordinates(MouseEvent e) {
+        System.out.println(e.getSceneX());
+        System.out.println(e.getSceneY());
+    }
+
+    private void initToolbox() {
+        openButton.setOnAction(e -> setImageViewFromFile());
+        // TODO - undo
+        // TODO - redo
+        lineButton.setOnAction(e -> rectangleButton.setSelected(false));
+        rectangleButton.setOnAction(e -> lineButton.setSelected(false));
     }
 
     private void initMenu() {
@@ -119,13 +144,17 @@ public class MainPaneController {
     // TODO - problem with polish signs in path
     private void initLoadImageMenu() {
         loadImageMenuItem.setOnAction(event -> {
-            FileChooser fc = new FileChooser();
-            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
-            File file = fc.showOpenDialog(new Stage());
-            if (file != null && file.exists()) {
-                setImageView(file.getAbsolutePath());
-            }
+            setImageViewFromFile();
         });
+    }
+
+    private void setImageViewFromFile() {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        File file = fc.showOpenDialog(new Stage());
+        if (file != null && file.exists()) {
+            setImageView(file.getAbsolutePath());
+        }
     }
 
     private void setImageView(String path) {
