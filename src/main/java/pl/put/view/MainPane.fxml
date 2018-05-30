@@ -24,6 +24,7 @@
                         <Menu id="languageMenu" fx:id="languageMenu" mnemonicParsing="false" text="Language">
                            <items>
                               <MenuItem id="englishMenuItem" fx:id="englishMenuItem" mnemonicParsing="false" text="English" />
+                              <MenuItem id="englishMenuItem" fx:id="polishMenuItem" mnemonicParsing="false" text="Polish" />
                            </items>
                         </Menu>
                      </items>
@@ -95,7 +96,7 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView id="undo-button" fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="image-view" fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </center>
