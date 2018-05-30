@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.opencv.core.Core;
 
 import java.io.File;
 import java.net.URL;
@@ -21,6 +22,7 @@ public class Main extends javafx.application.Application {
     }
 
     public static void main(String[] args) {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         launch(args);
     }
 }

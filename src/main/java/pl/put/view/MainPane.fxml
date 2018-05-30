@@ -15,8 +15,8 @@
                <menus>
                   <Menu id="fileMenu" fx:id="fileMenu" mnemonicParsing="false" text="File">
                      <items>
-                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
                         <MenuItem fx:id="loadImageMenuItem" mnemonicParsing="false" text="Load image" />
+                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
                      </items>
                   </Menu>
                   <Menu id="editMenu" fx:id="editMenu" mnemonicParsing="false" text="Edit">
@@ -95,7 +95,7 @@
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <ImageView id="undo-button" fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView id="imageView" fx:id="imageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </center>
