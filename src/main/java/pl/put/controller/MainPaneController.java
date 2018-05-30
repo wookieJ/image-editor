@@ -86,23 +86,51 @@ public class MainPaneController {
     }
 
     private void initMenu() {
-        initLoadImage();
+        initLoadImageMenu();
+        initCloseMenu();
+        initEditMenu();
     }
 
-    private void initLoadImage() {
+    private void initEditMenu() {
+        initEnglishMenuItem();
+        initPolishMenuItem();
+    }
+
+    private void initPolishMenuItem() {
+        polishMenuItem.setOnAction(e -> {
+            PropertyService propertyService = new PropertyService();
+            properties = propertyService.loadFromFile("properties\\polish.properties");
+            updateLabels();
+        });
+    }
+
+    private void initEnglishMenuItem() {
+        englishMenuItem.setOnAction(e -> {
+            PropertyService propertyService = new PropertyService();
+            properties = propertyService.loadFromFile("properties\\english.properties");
+            updateLabels();
+        });
+    }
+
+    private void initCloseMenu() {
+        closeMenuItem.setOnAction(e -> System.exit(0));
+    }
+
+    // TODO - problem with polish signs in path
+    private void initLoadImageMenu() {
         loadImageMenuItem.setOnAction(event -> {
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
             File file = fc.showOpenDialog(new Stage());
             if (file != null && file.exists()) {
-                setImageView(file.getPath());
+                setImageView(file.getAbsolutePath());
             }
         });
     }
 
     private void setImageView(String path) {
         ImageService imageService = new ImageService();
-        Image image = imageService.convertToImage(imageService.loadMatrix("sampleAssets\\example.png"));
+        Image image = imageService.convertToImage(imageService.loadMatrix(path));
         imageView.setImage(image);
         imageView.setFitWidth(image.getWidth());
         imageView.setFitHeight(image.getHeight());
