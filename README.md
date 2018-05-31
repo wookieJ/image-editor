@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/wookieJ/image-editor.svg?branch=master)](https://travis-ci.org/wookieJ/image-editor)
-[![codecov](https://codecov.io/gh/wookieJ/image-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/wookieJ/image-editor)
+<!--[![codecov](https://codecov.io/gh/wookieJ/image-editor/branch/master/graph/badge.svg)](https://codecov.io/gh/wookieJ/image-editor)-->
 # image-processing
 
 Image processing application, based on Plug-In architecture. The basic functionality includes drawing simple figures with the indicated color and line size. There is implemented possibility of undoing changes and restoring them. It is possible to load an image from a file.
