@@ -9,7 +9,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 import pl.put.imageUtils.ImageService;
+import pl.put.model.Canvas;
 import pl.put.plugin.Plugin;
 import pl.put.plugin.PluginLoader;
 import pl.put.propertyUtils.PropertyService;
@@ -76,6 +80,8 @@ public class MainPaneController {
 
     private Plugin[] plugins;
     private Properties properties;
+    private Point lineBeginPoint;
+    private Canvas canvas;
 
     @FXML
     public void initialize() {
@@ -85,7 +91,7 @@ public class MainPaneController {
         initMenu();
         initToolbox();
         initImageView();
-        setImageView("sampleAssets\\empty.png");
+        setImageViewFromFile("sampleAssets\\empty.png");
     }
 
     private void initImageView() {
@@ -95,11 +101,30 @@ public class MainPaneController {
 //            if(rectangleButton.isSelected())
 //                drawRectangle(e);
         });
+
+        imageView.setOnMouseReleased(e-> {
+            if (lineButton.isSelected())
+                drawLine(e);
+//            if(rectangleButton.isSelected())
+//                drawRectangle(e);
+        });
+    }
+
+    private void drawLine(MouseEvent e) {
+        Point lineEndPoint = new Point(e.getX(), e.getY());
+        Mat lineMat = canvas.getActualImage().clone();
+        Imgproc.line(lineMat, lineBeginPoint, lineEndPoint, new Scalar(0,0,255), 2);
+        updateImageView(lineMat);
+    }
+
+    private void updateImageView(Mat matrix) {
+        canvas.updateHistory(matrix);
+        ImageService imageService = new ImageService();
+        imageView.setImage(imageService.convertToImage(matrix));
     }
 
     private void writeCoordinates(MouseEvent e) {
-        System.out.println(e.getSceneX());
-        System.out.println(e.getSceneY());
+        lineBeginPoint = new Point(e.getX(), e.getY());
     }
 
     private void initToolbox() {
@@ -153,13 +178,15 @@ public class MainPaneController {
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
         File file = fc.showOpenDialog(new Stage());
         if (file != null && file.exists()) {
-            setImageView(file.getAbsolutePath());
+            setImageViewFromFile(file.getAbsolutePath());
         }
     }
 
-    private void setImageView(String path) {
+    private void setImageViewFromFile(String path) {
         ImageService imageService = new ImageService();
-        Image image = imageService.convertToImage(imageService.loadMatrix(path));
+        Mat matrix = imageService.loadMatrix(path);
+        Image image = imageService.convertToImage(matrix);
+        canvas = new Canvas(matrix);
         imageView.setImage(image);
         imageView.setFitWidth(image.getWidth());
         imageView.setFitHeight(image.getHeight());
