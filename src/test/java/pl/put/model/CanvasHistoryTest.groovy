@@ -1,6 +1,5 @@
 package pl.put.model
 
-import org.opencv.core.Core
 import org.opencv.core.Mat
 import org.opencv.core.Size
 import spock.lang.Specification
@@ -130,5 +129,67 @@ class CanvasHistoryTest extends Specification {
         lastMatTest == exampleMatrix
         canvasHistory.getIterator() == 0
         canvasHistory.history.size() == 2
+    }
+
+    def "isIteratorAtLast"() {
+        when:
+        CanvasHistory canvasHistory = new CanvasHistory()
+
+        then:
+        canvasHistory.isIteratorAtLast() == true
+
+        when:
+        Mat exampleMatrix = new Mat(new Size(10, 10), 0)
+        canvasHistory.addToHistory(exampleMatrix)
+        canvasHistory.addToHistory(exampleMatrix)
+
+        then:
+        canvasHistory.isIteratorAtLast() == true
+
+        when:
+        canvasHistory.getPrevious()
+
+        then:
+        canvasHistory.isIteratorAtLast() == false
+
+        when:
+        canvasHistory.getPrevious()
+        canvasHistory.getNext()
+
+        then:
+        canvasHistory.isIteratorAtLast() == true
+    }
+
+    def "deleteAfterIterator"() {
+        when:
+        CanvasHistory canvasHistory = new CanvasHistory()
+        Mat exampleMatrix = new Mat(new Size(10, 10), 0)
+        canvasHistory.addToHistory(exampleMatrix)
+        canvasHistory.addToHistory(exampleMatrix)
+        canvasHistory.addToHistory(exampleMatrix)
+        canvasHistory.addToHistory(exampleMatrix)
+        canvasHistory.getPrevious()
+
+        then:
+        canvasHistory.isIteratorAtLast() == false
+        canvasHistory.history.size() == 4
+        canvasHistory.getIterator() == 2
+
+        and:
+        canvasHistory.deleteAfterIterator()
+
+        then:
+        canvasHistory.isIteratorAtLast() == true
+        canvasHistory.history.size() == 3
+        canvasHistory.getIterator() == 2
+
+        and:
+        canvasHistory.getPrevious()
+        canvasHistory.getPrevious()
+        canvasHistory.deleteAfterIterator()
+
+        then:
+        canvasHistory.history.size() == 1
+        canvasHistory.getIterator() == 0
     }
 }

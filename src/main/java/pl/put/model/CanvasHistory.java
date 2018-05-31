@@ -81,4 +81,22 @@ public class CanvasHistory {
     public boolean isEmpty() {
         return history.isEmpty();
     }
+
+    /**
+     * Checking if iterator points at last element
+     *
+     * @return true if iterator points at last element, false otherwise
+     */
+    public boolean isIteratorAtLast() {
+        return getIterator() == history.size() - 1;
+    }
+
+    /**
+     * Deleting elements which occur after iterator
+     */
+    public void deleteAfterIterator() {
+        while (getIterator() + 1< history.size()) {
+            history.pollLast();
+        }
+    }
 }

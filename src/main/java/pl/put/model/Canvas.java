@@ -22,8 +22,8 @@ public class Canvas {
     public Canvas(Mat actualImage) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
-        this.actualImage = actualImage;
         this.canvasHistory = new CanvasHistory();
+        updateHistory(actualImage);
     }
 
     /**
@@ -66,9 +66,13 @@ public class Canvas {
 
     /**
      * Setting actual matrix and adding previous to history
+     *
      * @param matrix
      */
     public void updateHistory(Mat matrix) {
+        if (! canvasHistory.isIteratorAtLast()) {
+            canvasHistory.deleteAfterIterator();
+        }
         setActualImage(matrix);
         addToHistory(actualImage);
     }

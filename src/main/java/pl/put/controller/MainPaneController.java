@@ -114,13 +114,13 @@ public class MainPaneController {
         Point lineEndPoint = new Point(e.getX(), e.getY());
         Mat lineMat = canvas.getActualImage().clone();
         Imgproc.line(lineMat, lineBeginPoint, lineEndPoint, new Scalar(0,0,255), 2);
-        updateImageView(lineMat);
+        canvas.updateHistory(lineMat);
+        updateImageView();
     }
 
-    private void updateImageView(Mat matrix) {
-        canvas.updateHistory(matrix);
+    private void updateImageView() {
         ImageService imageService = new ImageService();
-        imageView.setImage(imageService.convertToImage(matrix));
+        imageView.setImage(imageService.convertToImage(canvas.getActualImage()));
     }
 
     private void writeCoordinates(MouseEvent e) {
@@ -129,8 +129,14 @@ public class MainPaneController {
 
     private void initToolbox() {
         openButton.setOnAction(e -> setImageViewFromFile());
-        // TODO - undo
-        // TODO - redo
+        undoButton.setOnAction(e-> {
+            canvas.undo();
+            updateImageView();
+        });
+        redoButton.setOnAction(e-> {
+            canvas.redo();
+            updateImageView();
+        });
         lineButton.setOnAction(e -> rectangleButton.setSelected(false));
         rectangleButton.setOnAction(e -> lineButton.setSelected(false));
     }
