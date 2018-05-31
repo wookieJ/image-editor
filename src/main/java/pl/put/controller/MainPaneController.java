@@ -114,7 +114,7 @@ public class MainPaneController {
     private void drawRectangle(MouseEvent e) {
         Point rectangleEndPoint = new Point(e.getX(), e.getY());
         Mat rectangleMat = canvas.getActualImage().clone();
-        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, new Scalar(0, 255, 0), 2);
+        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, new Scalar(255, 0, 0), 2);
         canvas.updateHistory(rectangleMat);
         updateImageView();
     }
@@ -187,14 +187,12 @@ public class MainPaneController {
 
     // TODO - problem with polish signs in path
     private void initLoadImageMenu() {
-        loadImageMenuItem.setOnAction(event -> {
-            setImageViewFromFile();
-        });
+        loadImageMenuItem.setOnAction(event -> setImageViewFromFile());
     }
 
     private void setImageViewFromFile() {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG, PNG", "*.png", "*.jpg"));
         File file = fc.showOpenDialog(new Stage());
         if (file != null && file.exists()) {
             setImageViewFromFile(file.getAbsolutePath());
@@ -233,13 +231,7 @@ public class MainPaneController {
 
         try {
             plugins = PluginLoader.initAsPlugin(PluginLoader.loadPlugins("plugins", "config.cfg"));
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | IOException e) {
             e.printStackTrace();
         }
 
