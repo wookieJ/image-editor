@@ -99,14 +99,14 @@ public class MainPaneController {
         imageView.setOnMousePressed(e -> {
             if (lineButton.isSelected())
                 writeLineCoordinates(e);
-            if(rectangleButton.isSelected())
+            if (rectangleButton.isSelected())
                 writeRectangleCoordintes(e);
         });
 
-        imageView.setOnMouseReleased(e-> {
+        imageView.setOnMouseReleased(e -> {
             if (lineButton.isSelected())
                 drawLine(e);
-            if(rectangleButton.isSelected())
+            if (rectangleButton.isSelected())
                 drawRectangle(e);
         });
     }
@@ -114,7 +114,7 @@ public class MainPaneController {
     private void drawRectangle(MouseEvent e) {
         Point rectangleEndPoint = new Point(e.getX(), e.getY());
         Mat rectangleMat = canvas.getActualImage().clone();
-        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, new Scalar(0,255,0), 2);
+        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, new Scalar(0, 255, 0), 2);
         canvas.updateHistory(rectangleMat);
         updateImageView();
     }
@@ -126,7 +126,7 @@ public class MainPaneController {
     private void drawLine(MouseEvent e) {
         Point lineEndPoint = new Point(e.getX(), e.getY());
         Mat lineMat = canvas.getActualImage().clone();
-        Imgproc.line(lineMat, lineBeginPoint, lineEndPoint, new Scalar(0,0,255), 2);
+        Imgproc.line(lineMat, lineBeginPoint, lineEndPoint, new Scalar(0, 0, 255), 2);
         canvas.updateHistory(lineMat);
         updateImageView();
     }
@@ -142,11 +142,11 @@ public class MainPaneController {
 
     private void initToolbox() {
         openButton.setOnAction(e -> setImageViewFromFile());
-        undoButton.setOnAction(e-> {
+        undoButton.setOnAction(e -> {
             canvas.undo();
             updateImageView();
         });
-        redoButton.setOnAction(e-> {
+        redoButton.setOnAction(e -> {
             canvas.redo();
             updateImageView();
         });
@@ -250,7 +250,13 @@ public class MainPaneController {
         Arrays.stream(plugins).forEach(plugin -> {
             Button pluginButton = new Button(plugin.getName());
             pluginsToolBox.getChildren().add(pluginButton);
-            pluginButton.setOnAction(event -> plugin.run(new Mat()));
+            pluginButton.setOnAction(event -> {
+                Mat mat = plugin.run(canvas.getActualImage());
+                if (mat != null) {
+                    canvas.updateHistory(mat);
+                    updateImageView();
+                }
+            });
         });
     }
 }
