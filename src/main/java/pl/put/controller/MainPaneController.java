@@ -81,6 +81,7 @@ public class MainPaneController {
     private Plugin[] plugins;
     private Properties properties;
     private Point lineBeginPoint;
+    private Point rectangleBeginPoint;
     private Canvas canvas;
 
     @FXML
@@ -97,17 +98,29 @@ public class MainPaneController {
     private void initImageView() {
         imageView.setOnMousePressed(e -> {
             if (lineButton.isSelected())
-                writeCoordinates(e);
-//            if(rectangleButton.isSelected())
-//                drawRectangle(e);
+                writeLineCoordinates(e);
+            if(rectangleButton.isSelected())
+                writeRectangleCoordintes(e);
         });
 
         imageView.setOnMouseReleased(e-> {
             if (lineButton.isSelected())
                 drawLine(e);
-//            if(rectangleButton.isSelected())
-//                drawRectangle(e);
+            if(rectangleButton.isSelected())
+                drawRectangle(e);
         });
+    }
+
+    private void drawRectangle(MouseEvent e) {
+        Point rectangleEndPoint = new Point(e.getX(), e.getY());
+        Mat rectangleMat = canvas.getActualImage().clone();
+        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, new Scalar(0,255,0), 2);
+        canvas.updateHistory(rectangleMat);
+        updateImageView();
+    }
+
+    private void writeRectangleCoordintes(MouseEvent e) {
+        rectangleBeginPoint = new Point(e.getX(), e.getY());
     }
 
     private void drawLine(MouseEvent e) {
@@ -123,7 +136,7 @@ public class MainPaneController {
         imageView.setImage(imageService.convertToImage(canvas.getActualImage()));
     }
 
-    private void writeCoordinates(MouseEvent e) {
+    private void writeLineCoordinates(MouseEvent e) {
         lineBeginPoint = new Point(e.getX(), e.getY());
     }
 
