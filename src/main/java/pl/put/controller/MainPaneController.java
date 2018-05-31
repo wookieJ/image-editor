@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.core.Mat;
@@ -25,16 +26,16 @@ import java.util.Properties;
 
 public class MainPaneController {
     @FXML
-    private ImageView imageView;
+    private ChoiceBox<Integer> sizePicker;
 
     @FXML
     private HBox pluginsToolBox;
 
     @FXML
-    private ToggleButton lineButton;
+    private ImageView imageView;
 
     @FXML
-    private MenuItem polishMenuItem;
+    private ToggleButton lineButton;
 
     @FXML
     private Label rightLabel;
@@ -61,6 +62,9 @@ public class MainPaneController {
     private MenuItem closeMenuItem;
 
     @FXML
+    private MenuItem polishMenuItem;
+
+    @FXML
     private Menu languageMenu;
 
     @FXML
@@ -68,6 +72,9 @@ public class MainPaneController {
 
     @FXML
     private ToggleButton rectangleButton;
+
+    @FXML
+    private ColorPicker colorPicker;
 
     @FXML
     private MenuItem loadImageMenuItem;
@@ -114,7 +121,10 @@ public class MainPaneController {
     private void drawRectangle(MouseEvent e) {
         Point rectangleEndPoint = new Point(e.getX(), e.getY());
         Mat rectangleMat = canvas.getActualImage().clone();
-        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, new Scalar(255, 0, 0), 2);
+        Color color = colorPicker.getValue();
+        Scalar scalar = new Scalar((int) (color.getBlue() * 255), (int) (color.getGreen() * 255), (int) (color.getRed() * 255));
+        int size = sizePicker.getValue();
+        Imgproc.rectangle(rectangleMat, rectangleBeginPoint, rectangleEndPoint, scalar, size);
         canvas.updateHistory(rectangleMat);
         updateImageView();
     }
@@ -126,7 +136,10 @@ public class MainPaneController {
     private void drawLine(MouseEvent e) {
         Point lineEndPoint = new Point(e.getX(), e.getY());
         Mat lineMat = canvas.getActualImage().clone();
-        Imgproc.line(lineMat, lineBeginPoint, lineEndPoint, new Scalar(0, 0, 255), 2);
+        Color color = colorPicker.getValue();
+        Scalar scalar = new Scalar((int) (color.getBlue() * 255), (int) (color.getGreen() * 255), (int) (color.getRed() * 255));
+        int size = sizePicker.getValue();
+        Imgproc.line(lineMat, lineBeginPoint, lineEndPoint, scalar, size);
         canvas.updateHistory(lineMat);
         updateImageView();
     }
@@ -152,6 +165,9 @@ public class MainPaneController {
         });
         lineButton.setOnAction(e -> rectangleButton.setSelected(false));
         rectangleButton.setOnAction(e -> lineButton.setSelected(false));
+        colorPicker.setValue(Color.RED);
+        sizePicker.getItems().addAll(1, 2, 3, 5, 8, 12, 18, 26);
+        sizePicker.setValue(2);
     }
 
     private void initMenu() {
