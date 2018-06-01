@@ -5,7 +5,7 @@
 Image processing application, based on Plug-In architecture. The basic functionality includes drawing simple figures with the indicated color and line size. There is implemented possibility of undoing changes and restoring them. It is possible to load an image from a file.
 
 ## Plugins
-There are four example plugins implemented which are dynamiccaly loaded by reflection at the beggining of program.
+There are four example plugins implemented which are dynamically loading by reflection at the beginning of program.
 * Grey scale - turning color image into grey scale.
 * Blur - bluring image.
 * Equalize - filter which makes image look better.
@@ -55,4 +55,4 @@ Main pl.put.FaceDetectionFilterPlugin
 * OpenCV
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
