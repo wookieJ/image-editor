@@ -25,7 +25,7 @@ You need maven nd JDK 8.<br/>
 To clone repository use following command:
 
 ```
-https://github.com/wookieJ/image-editor.git
+git clone https://github.com/wookieJ/image-editor.git
 ```
 
 ## Installing
@@ -45,14 +45,14 @@ Main pl.put.FaceDetectionFilterPlugin
 **Main** property indicates main class path
 
 ## Built With
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [Travis](https://travis-ci.org/) - Test and Deploy tool
+* [Maven](https://maven.apache.org/) - Dependency Management.
+* [Travis](https://travis-ci.org/) - Test and Deploy tool.
 
 ## Tech Stack
-* JavaFX
-* Groovy
-* Spock
-* OpenCV
+* [JavaFX](https://java.com/pl/javafx/) - It extends the capabilities of java to build environments with an attractive graphic layout.
+* [Groovy](http://groovy-lang.org/) - Powerful, optionally typed and dynamic language, used to write unit tests here.
+* [Spock](http://spockframework.org/) -  Groovy testing framework.
+* [OpenCV](https://opencv.org/) - Used in every image transformation.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
